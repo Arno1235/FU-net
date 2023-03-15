@@ -301,7 +301,7 @@ class Model:
     def get_loss(self, logits, labels):
         flat_logits = tf.reshape(logits, [-1, self.n_class])
         flat_labels = tf.reshape(labels, [-1, self.n_class])
-        loss_map = tf.nn.sparse_softmax_cross_entropy_with_logits(logits=flat_logits, labels=flat_labels)
+        loss_map = tf.compat.v1.nn.softmax_cross_entropy_with_logits_v2(logits=flat_logits, labels=flat_labels)
         if self.weight_type is None:
             loss = tf.reduce_mean(loss_map)
         else:
