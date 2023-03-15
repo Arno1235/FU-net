@@ -307,7 +307,7 @@ class Model:
         else:
             probs = tf.nn.softmax(logits, axis=-1)
             flat_probs = tf.reshape(probs, [-1, self.n_class])
-			if self.weight_type == 'feedback':
+            if self.weight_type == 'feedback':
                 weight_map = feedback_weight_map(flat_probs, flat_labels, 3, 100)
             else:
                 raise ValueError("Unknown weight type: "%self.weight_type)
