@@ -158,7 +158,7 @@ class Trainer:
             os.makedirs(checkpoint_path)
 
         # init global_step
-        global_step = tf.train.get_or_create_global_step()
+        global_step = tf.training_util.get_or_create_global_step()
         global_step.assign(0)
         # restore
         #self.checkpoint = tfe.Checkpoint(model=self.model.net, optimizer=self.optimizer, global_step=global_step, learning_rate=self.learning_rate)
