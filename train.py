@@ -355,7 +355,7 @@ class Trainer:
                     tf.summary.scalar(key, value, step=epoch)
                 else:
                     for i, v in enumerate(value):
-                        tf.summary.scalar('%s/class_%s'%(key, i), v)
+                        tf.summary.scalar('%s/class_%s'%(key, i), v, step=epoch)
 
     def write_image_summary(self, imgs, writer):
         with writer.as_default(), tf.summary.always_record_summaries():
