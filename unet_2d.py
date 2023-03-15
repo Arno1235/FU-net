@@ -41,7 +41,7 @@ class _DownSev(tf.keras.Model):
     def call(self, input_tensor, keep_prob, train_phase):
         # conv1
         x = self.conv1(input_tensor)
-        x = tf.nn.dropout(x, keep_prob)
+        x = tf.nn.dropout(x, min(keep_prob, 0.99)) # min Necessary?
 
         return x
 
