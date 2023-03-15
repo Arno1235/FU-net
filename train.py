@@ -108,7 +108,7 @@ class Trainer:
                 train_evaluation['learning rate'] = self.learning_rate.numpy()
                 output_str = U.eval_to_str(train_evaluation)
                 print('epoch %d -- train %s'%(global_step, output_str), end='| ')
-                self.write_summary(train_evaluation, train_writer)
+                self.write_summary(train_evaluation, train_writer, epoch=global_step)
 
                 train_auc.append(train_evaluation['auc'])
                 train_dice.append(train_evaluation['dice'])
@@ -119,7 +119,7 @@ class Trainer:
 
 
             if validation_summary:
-                self.write_summary(summary, validation_writer)
+                self.write_summary(summary, validation_writer, epoch=global_step)
                 self.write_image_summary(imgs, validation_writer)
 
 
@@ -205,7 +205,7 @@ class Trainer:
                 train_evaluation['learning rate'] = self.learning_rate.numpy()
                 output_str = U.eval_to_str(train_evaluation)
                 print('train %s'%output_str, end='| ')
-                self.write_summary(train_evaluation, train_writer)
+                self.write_summary(train_evaluation, train_writer, epoch=global_step)
 
                 #train_auc.append(train_evaluation['auc'])
                 train_dice.append(train_evaluation['dice'])
@@ -220,7 +220,7 @@ class Trainer:
                 self.checkpoint.write(checkpoint_path+'/best_checkpoint')
 
             if validation_summary:
-                self.write_summary(summary, validation_writer)
+                self.write_summary(summary, validation_writer, epoch=global_step)
                 self.write_image_summary(imgs, validation_writer)
 
 
@@ -346,13 +346,13 @@ class Trainer:
 
         return evaluation_o, imgs_o
 
-    def write_summary(self, summary, writer):
+    def write_summary(self, summary, writer, epoch):
         # with writer.as_default(), tf.summary.always_record_summaries():
         with writer.as_default():
             for key in summary:
                 value = summary.get(key)
                 if value.size <= 1:
-                    tf.summary.scalar(key, value)
+                    tf.summary.scalar(key, value, step=epoch)
                 else:
                     for i, v in enumerate(value):
                         tf.summary.scalar('%s/class_%s'%(key, i), v)
