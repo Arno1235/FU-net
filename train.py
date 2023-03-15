@@ -59,8 +59,8 @@ class Trainer:
             checkpoint.restore(tf.train.latest_checkpoint(checkpoint_path))
 
         # summary writer
-        train_writer = tf.contrib.summary.create_file_writer(summary_path+'/train')
-        validation_writer = tf.contrib.summary.create_file_writer(summary_path+'/validation')
+        train_writer = tf.summary.create_file_writer(summary_path+'/train')
+        validation_writer = tf.summary.create_file_writer(summary_path+'/validation')
 
         dataset_train = data_provider.get('train')
         dataset_validation = data_provider.get('validation')
@@ -167,8 +167,8 @@ class Trainer:
             self.checkpoint.restore(tf.train.latest_checkpoint(checkpoint_path))
 
         # summary writer
-        train_writer = tf.contrib.summary.create_file_writer(summary_path+'/train')
-        validation_writer = tf.contrib.summary.create_file_writer(summary_path+'/validation')
+        train_writer = tf.summary.create_file_writer(summary_path+'/train')
+        validation_writer = tf.summary.create_file_writer(summary_path+'/validation')
 
         dataset_train = data_provider.get('train')
         dataset_validation = data_provider.get('validation')
@@ -347,17 +347,17 @@ class Trainer:
         return evaluation_o, imgs_o
 
     def write_summary(self, summary, writer):
-        with writer.as_default(), tf.contrib.summary.always_record_summaries():
+        with writer.as_default(), tf.summary.always_record_summaries():
             for key in summary:
                 value = summary.get(key)
                 if value.size <= 1:
-                    tf.contrib.summary.scalar(key, value)
+                    tf.summary.scalar(key, value)
                 else:
                     for i, v in enumerate(value):
-                        tf.contrib.summary.scalar('%s/class_%s'%(key, i), v)
+                        tf.summary.scalar('%s/class_%s'%(key, i), v)
 
     def write_image_summary(self, imgs, writer):
-        with writer.as_default(), tf.contrib.summary.always_record_summaries():
+        with writer.as_default(), tf.summary.always_record_summaries():
             if type(imgs[0]) == list:
                 for i, img in enumerate(imgs):
                     self.write_one_image_summary(img, 'output/sub_%s'%i)
@@ -369,6 +369,6 @@ class Trainer:
                 img = imgs[i]
                 img = img.reshape((1, img.shape[0], img.shape[1], 1))
                 if i < len(imgs) - 1:
-                    tf.contrib.summary.image('%s/class_%d'%(path, i), img)
+                    tf.summary.image('%s/class_%d'%(path, i), img)
                 else:
-                    tf.contrib.summary.image('%s/argmax'%path, img)
+                    tf.summary.image('%s/argmax'%path, img)
