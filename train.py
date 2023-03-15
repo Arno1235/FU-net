@@ -347,7 +347,8 @@ class Trainer:
         return evaluation_o, imgs_o
 
     def write_summary(self, summary, writer):
-        with writer.as_default(), tf.summary.always_record_summaries():
+        # with writer.as_default(), tf.summary.always_record_summaries():
+        with writer.as_default():
             for key in summary:
                 value = summary.get(key)
                 if value.size <= 1:
