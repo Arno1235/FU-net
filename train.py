@@ -4,7 +4,7 @@ import os
 import shutil
 import numpy as np
 import tensorflow as tf
-from tensorflow.contrib.eager.python import tfe
+# from tensorflow.contrib.eager.python import tfe
 
 import util as U
 
@@ -13,7 +13,8 @@ import util as U
 class Trainer:
     def __init__(self, model, learning_rate, training_iters, batch_size):
         self.model = model
-        self.learning_rate = tfe.Variable(learning_rate)
+        #self.learning_rate = tfe.Variable(learning_rate)
+        self.learning_rate = tf.Variable(learning_rate)
         self.training_iters = training_iters
         self.batch_size = batch_size
 
@@ -52,7 +53,8 @@ class Trainer:
         global_step = tf.train.get_or_create_global_step()
         global_step.assign(0)
         # restore
-        checkpoint = tfe.Checkpoint(model=self.model.net, optimizer=self.optimizer, global_step=global_step, learning_rate=self.learning_rate)
+        #checkpoint = tfe.Checkpoint(model=self.model.net, optimizer=self.optimizer, global_step=global_step, learning_rate=self.learning_rate)
+        checkpoint = tf.Checkpoint(model=self.model.net, optimizer=self.optimizer, global_step=global_step, learning_rate=self.learning_rate)
         if restore:
             checkpoint.restore(tf.train.latest_checkpoint(checkpoint_path))
 
@@ -159,7 +161,8 @@ class Trainer:
         global_step = tf.train.get_or_create_global_step()
         global_step.assign(0)
         # restore
-        self.checkpoint = tfe.Checkpoint(model=self.model.net, optimizer=self.optimizer, global_step=global_step, learning_rate=self.learning_rate)
+        #self.checkpoint = tfe.Checkpoint(model=self.model.net, optimizer=self.optimizer, global_step=global_step, learning_rate=self.learning_rate)
+        self.checkpoint = tf.Checkpoint(model=self.model.net, optimizer=self.optimizer, global_step=global_step, learning_rate=self.learning_rate)
         if restore:
             self.checkpoint.restore(tf.train.latest_checkpoint(checkpoint_path))
 
@@ -233,7 +236,8 @@ class Trainer:
         return  train_dice, validation_dice
 
     def pred_image(self, image_in, checkpoint_path, num):
-        self.checkpoint = tfe.Checkpoint(model=self.model.net)
+        #self.checkpoint = tfe.Checkpoint(model=self.model.net)
+        self.checkpoint = tf.Checkpoint(model=self.model.net)
         self.checkpoint.restore(checkpoint_path)
 
         preds = []
@@ -249,7 +253,8 @@ class Trainer:
 
 
     def dice_eval(self, dataset_validation, checkpoint_path):
-        self.checkpoint = tfe.Checkpoint(model=self.model.net)
+        #self.checkpoint = tfe.Checkpoint(model=self.model.net)
+        self.checkpoint = tf.Checkpoint(model=self.model.net)
         self.checkpoint.restore(checkpoint_path)
         v_size = dataset_validation.size()
 
