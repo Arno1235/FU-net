@@ -358,7 +358,8 @@ class Trainer:
                         tf.summary.scalar('%s/class_%s'%(key, i), v, step=epoch)
 
     def write_image_summary(self, imgs, writer):
-        with writer.as_default(), tf.summary.always_record_summaries():
+        # with writer.as_default(), tf.summary.always_record_summaries():
+        with writer.as_default():
             if type(imgs[0]) == list:
                 for i, img in enumerate(imgs):
                     self.write_one_image_summary(img, 'output/sub_%s'%i)
