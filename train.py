@@ -120,7 +120,7 @@ class Trainer:
 
             if validation_summary:
                 self.write_summary(summary, validation_writer, epoch=global_step)
-                self.write_image_summary(imgs, validation_writer)
+                self.write_image_summary(imgs, validation_writer, epoch=global_step)
 
 
             # save model
@@ -221,7 +221,7 @@ class Trainer:
 
             if validation_summary:
                 self.write_summary(summary, validation_writer, epoch=global_step)
-                self.write_image_summary(imgs, validation_writer)
+                self.write_image_summary(imgs, validation_writer, epoch=global_step)
 
 
             # save model
@@ -357,20 +357,20 @@ class Trainer:
                     for i, v in enumerate(value):
                         tf.summary.scalar('%s/class_%s'%(key, i), v, step=epoch)
 
-    def write_image_summary(self, imgs, writer):
+    def write_image_summary(self, imgs, writer, epoch):
         # with writer.as_default(), tf.summary.always_record_summaries():
         with writer.as_default():
             if type(imgs[0]) == list:
                 for i, img in enumerate(imgs):
-                    self.write_one_image_summary(img, 'output/sub_%s'%i)
+                    self.write_one_image_summary(img, 'output/sub_%s'%i, epoch=epoch)
             else:
-                self.write_one_image_summary(imgs, 'output')
+                self.write_one_image_summary(imgs, 'output', epoch=epoch)
 
-    def write_one_image_summary(self, imgs, path):
+    def write_one_image_summary(self, imgs, path, epoch):
         for i in range(len(imgs)):
                 img = imgs[i]
                 img = img.reshape((1, img.shape[0], img.shape[1], 1))
                 if i < len(imgs) - 1:
-                    tf.summary.image('%s/class_%d'%(path, i), img)
+                    tf.summary.image('%s/class_%d'%(path, i), img, step=epoch)
                 else:
-                    tf.summary.image('%s/argmax'%path, img)
+                    tf.summary.image('%s/argmax'%path, img, step=epoch)
