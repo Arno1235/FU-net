@@ -25,7 +25,7 @@ class Trainer:
             self.lr_step += 1
             return self.learning_rate
 
-        self.optimizer = tf.train.AdamOptimizer(learning_rate)
+        self.optimizer = tf.optimizers.Adam(learning_rate)
 
     def train_mini_batch(self, data_provider, epochs, mini_batch_size, output_path, restore=False, train_summary=True, validation_summary=True):
 
