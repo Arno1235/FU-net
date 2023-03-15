@@ -162,7 +162,7 @@ class Trainer:
         global_step.assign(0)
         # restore
         #self.checkpoint = tfe.Checkpoint(model=self.model.net, optimizer=self.optimizer, global_step=global_step, learning_rate=self.learning_rate)
-        self.checkpoint = tf.Checkpoint(model=self.model.net, optimizer=self.optimizer, global_step=global_step, learning_rate=self.learning_rate)
+        self.checkpoint = tf.train.Checkpoint(model=self.model.net, optimizer=self.optimizer, global_step=global_step, learning_rate=self.learning_rate)
         if restore:
             self.checkpoint.restore(tf.train.latest_checkpoint(checkpoint_path))
 
