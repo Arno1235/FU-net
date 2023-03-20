@@ -321,7 +321,7 @@ class Model:
         
         ### TEST ###
 
-        pred_prob = tf.nn.softmax(logits, axis=-1)
+        pred_prob = tf.nn.softmax(flat_logits, axis=-1)
         pred = tf.one_hot(tf.argmax(pred_prob, -1), self.n_class)
 
         flat_pred = tf.reshape(pred, [-1, self.n_class])
