@@ -333,7 +333,7 @@ class Model:
         dice = 2 * intersection / sum_
 
         loss = 0
-        for d in dice:
+        for d in dice[1:]:
             loss += d
         loss /= len(dice)
         loss = 1-loss
