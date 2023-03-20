@@ -304,7 +304,10 @@ class Model:
     def get_loss(self, logits, labels):
         flat_logits = tf.reshape(logits, [-1, self.n_class])
         flat_labels = tf.reshape(labels, [-1, self.n_class])
+
         loss_map = tf.nn.softmax_cross_entropy_with_logits(logits=flat_logits, labels=flat_labels)
+        print(f'TEST loss map: {loss_map}')
+
         if self.weight_type is None:
             loss = tf.reduce_mean(loss_map)
         else:
@@ -319,22 +322,22 @@ class Model:
         
         ### TEST ###
 
-        pred_prob = tf.nn.softmax(logits, axis=-1)
-        pred = tf.one_hot(tf.argmax(pred_prob, -1), self.n_class)
+        # pred_prob = tf.nn.softmax(logits, axis=-1)
+        # pred = tf.one_hot(tf.argmax(pred_prob, -1), self.n_class)
 
-        flat_pred = tf.reshape(pred, [-1, self.n_class])
+        # flat_pred = tf.reshape(pred, [-1, self.n_class])
 
-        # dice
-        eps = 1e-5
-        intersection = tf.reduce_sum(flat_pred * flat_labels, axis=0)
-        sum_ = eps + tf.reduce_sum(flat_pred + flat_labels, axis=0)
-        dice = 2 * intersection / sum_
+        # # dice
+        # eps = 1e-5
+        # intersection = tf.reduce_sum(flat_pred * flat_labels, axis=0)
+        # sum_ = eps + tf.reduce_sum(flat_pred + flat_labels, axis=0)
+        # dice = 2 * intersection / sum_
 
-        loss = 0
-        for d in dice:
-            loss += d
-        loss /= len(dice)
-        loss = 1-loss
+        # loss = 0
+        # for d in dice:
+        #     loss += d
+        # loss /= len(dice)
+        # loss = 1-loss
 
         # print(f'TEST loss: {loss}')
 
