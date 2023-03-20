@@ -315,7 +315,9 @@ class Model:
             else:
                 raise ValueError("Unknown weight type: "%self.weight_type)
 
-            loss = tf.reduce_mean(tf.multiply(loss_map, weight_map)) 
+            loss = tf.reduce_mean(tf.multiply(loss_map, weight_map))
+
+        print(f'TEST loss: {loss}') # TEST
 
         return loss
 
