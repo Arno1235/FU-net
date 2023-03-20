@@ -255,7 +255,7 @@ class Trainer:
     def dice_eval(self, dataset_validation, checkpoint_path):
         #self.checkpoint = tfe.Checkpoint(model=self.model.net)
         self.checkpoint = tf.train.Checkpoint(model=self.model.net)
-        # self.checkpoint.restore(checkpoint_path) # TEST
+        self.checkpoint.restore(checkpoint_path)
         v_size = dataset_validation.size()
 
         dice = []
