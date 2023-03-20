@@ -310,7 +310,7 @@ class Model:
 
         probs = tf.nn.softmax(logits, axis=-1)
         flat_probs = tf.reshape(probs, [-1, self.n_class])
-        print(f'TEST probs: {probs.size}, flat_probs: {flat_probs.size}')
+        print(f'TEST probs: {tf.size(probs)}, flat_probs: {tf.size(flat_probs)}')
 
         if self.weight_type is None:
             loss = tf.reduce_mean(loss_map)
