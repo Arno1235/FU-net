@@ -336,7 +336,7 @@ class Model:
         loss /= len(dice)
         loss = 1-loss
 
-        print(f'TEST loss: {loss}')
+        # print(f'TEST loss: {loss}')
 
         ### TEST ###
 
