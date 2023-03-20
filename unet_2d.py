@@ -330,7 +330,11 @@ class Model:
         sum_ = eps + tf.reduce_sum(flat_pred + flat_labels, axis=0)
         dice = 2 * intersection / sum_
 
-        loss = 1 - dice
+        loss = 0
+        for d in dice:
+            loss += d
+        loss /= len(dice)
+        loss = 1-loss
 
         print(f'TEST loss: {loss}')
 
