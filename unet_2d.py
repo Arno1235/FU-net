@@ -306,7 +306,7 @@ class Model:
         flat_labels = tf.reshape(labels, [-1, self.n_class])
 
         loss_map = tf.nn.softmax_cross_entropy_with_logits(logits=flat_logits, labels=flat_labels)
-        print(f'TEST loss map: {loss_map}')
+        print(f'TEST loss map: {loss_map}, size: {len(loss_map)}')
 
         if self.weight_type is None:
             loss = tf.reduce_mean(loss_map)
