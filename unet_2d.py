@@ -316,8 +316,25 @@ class Model:
                 raise ValueError("Unknown weight type: "%self.weight_type)
 
             loss = tf.reduce_mean(tf.multiply(loss_map, weight_map))
+        
+        ### TEST ###
 
-        print(f'TEST loss: {loss}') # TEST
+        pred_prob = tf.nn.softmax(logits, axis=-1)
+        pred = tf.one_hot(tf.argmax(pred_prob, -1), self.n_class)
+
+        flat_pred = tf.reshape(pred, [-1, self.n_class])
+
+        # dice
+        eps = 1e-5
+        intersection = tf.reduce_sum(flat_pred * flat_labels, axis=0)
+        sum_ = eps + tf.reduce_sum(flat_pred + flat_labels, axis=0)
+        dice = 2 * intersection / sum_
+
+        loss = 1 - dice
+
+        print(f'TEST loss: {loss}')
+
+        ### TEST ###
 
         return loss
 
