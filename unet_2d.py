@@ -332,8 +332,6 @@ class Model:
         sum_ = eps + tf.reduce_sum(flat_pred + flat_labels, axis=0)
         dice = 2 * intersection / sum_
 
-        dice = dice[1:]
-
         loss = 0
         for d in dice:
             loss += d
