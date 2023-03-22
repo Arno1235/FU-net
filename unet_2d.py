@@ -321,22 +321,22 @@ class Model:
         
         ### TEST ###
 
-        pred_prob = tf.nn.softmax(flat_logits, axis=-1)
-        pred = tf.one_hot(tf.argmax(pred_prob, -1), self.n_class)
+        # pred_prob = tf.nn.softmax(flat_logits, axis=-1)
+        # pred = tf.one_hot(tf.argmax(pred_prob, -1), self.n_class)
 
-        flat_pred = tf.reshape(pred, [-1, self.n_class])
+        # flat_pred = tf.reshape(pred, [-1, self.n_class])
 
-        # dice
-        eps = 1e-5
-        intersection = tf.reduce_sum(flat_pred * flat_labels, axis=0)
-        sum_ = eps + tf.reduce_sum(flat_pred + flat_labels, axis=0)
-        dice = 2 * intersection / sum_
+        # # dice
+        # eps = 1e-5
+        # intersection = tf.reduce_sum(flat_pred * flat_labels, axis=0)
+        # sum_ = eps + tf.reduce_sum(flat_pred + flat_labels, axis=0)
+        # dice = 2 * intersection / sum_
 
-        loss = 0
-        for d in dice:
-            loss += d
-        loss /= len(dice)
-        loss = 1-loss
+        # loss = 0
+        # for d in dice:
+        #     loss += d
+        # loss /= len(dice)
+        # loss = 1-loss
         # loss *= 1_000_000
 
         # print(f'TEST loss: {loss}, dice: {dice}')
