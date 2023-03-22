@@ -238,8 +238,7 @@ class Trainer:
     def pred_image(self, image_in, checkpoint_path, num):
         #self.checkpoint = tfe.Checkpoint(model=self.model.net)
         self.checkpoint = tf.train.Checkpoint(model=self.model.net)
-        # self.checkpoint.restore(checkpoint_path) # TEST
-        self.checkpoint.read(checkpoint_path)
+        self.checkpoint.restore(checkpoint_path).expect_partial()
 
         preds = []
         for icounter in range(num):
