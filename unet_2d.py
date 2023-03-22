@@ -343,19 +343,9 @@ class Model:
         flat_pred = tf.reshape(pred, [-1, self.n_class])
 
         # dice
-        eps = 1e-5
         intersection = tf.reduce_sum(flat_pred * flat_labels, axis=0)
-        sum_ = eps + tf.reduce_sum(flat_pred + flat_labels, axis=0)
-        dice = 2 * intersection / sum_
-
-        loss = len(dice)
-        for d in dice:
-            loss -= d
-        # loss /= len(dice)
-        # loss = 1-loss
-        loss *= 1_000_000
-
-        # print(f'TEST loss: {loss}, dice: {dice}')
+        sum_ = tf.reduce_sum(flat_pred + flat_labels, axis=0)
+        loss = 1.0 - 2.0 * (intersection + 1) / (sum_ + 1)
 
         ### TEST ###
 
