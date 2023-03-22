@@ -305,47 +305,32 @@ class Model:
         flat_logits = tf.reshape(logits, [-1, self.n_class])
         flat_labels = tf.reshape(labels, [-1, self.n_class])
 
-        # loss_map = tf.nn.softmax_cross_entropy_with_logits(logits=flat_logits, labels=flat_labels)
+        loss_map = tf.nn.softmax_cross_entropy_with_logits(logits=flat_logits, labels=flat_labels)
 
-        # if self.weight_type is None:
-        #     loss = tf.reduce_mean(loss_map)
-        # else:
-        #     probs = tf.nn.softmax(logits, axis=-1)
-        #     flat_probs = tf.reshape(probs, [-1, self.n_class])
+        if self.weight_type is None:
+            loss = tf.reduce_mean(loss_map)
+        else:
+            probs = tf.nn.softmax(logits, axis=-1)
+            flat_probs = tf.reshape(probs, [-1, self.n_class])
 
-        #     # TEST
-        #     # print(f'flat_probs: {np.shape(flat_probs)} {flat_probs}')
-        #     # print(f'flat_labels: {np.shape(flat_labels)} {flat_labels}')
+            if self.weight_type == 'feedback':
+                weight_map = feedback_weight_map(flat_probs, flat_labels, 3, 100)
+            else:
+                raise ValueError("Unknown weight type: "%self.weight_type)
 
-        #     if self.weight_type == 'feedback':
-
-        #         flat_labels = flat_labels.numpy()
-        #         for i in range(len(flat_labels)):
-        #             # print(flat_labels[i])
-        #             flat_labels[i][0] = 0
-
-        #         weight_map = feedback_weight_map(flat_probs, flat_labels, 3, 100)
-        #         # print(f'wm {np.shape(weight_map)}')
-        #     else:
-        #         raise ValueError("Unknown weight type: "%self.weight_type)
-
-        #     # print(f'lm {np.shape(loss_map)}')
-
-        #     loss = tf.reduce_mean(tf.multiply(loss_map, weight_map))
-        #     # print(f'loss {np.shape(loss)}')
-
+            loss = tf.reduce_mean(tf.multiply(loss_map, weight_map))
         
         ### TEST ###
 
-        pred_prob = tf.nn.softmax(flat_logits, axis=-1)
-        pred = tf.one_hot(tf.argmax(pred_prob, -1), self.n_class)
+        # pred_prob = tf.nn.softmax(flat_logits, axis=-1)
+        # pred = tf.one_hot(tf.argmax(pred_prob, -1), self.n_class)
 
-        flat_pred = tf.reshape(pred, [-1, self.n_class])
+        # flat_pred = tf.reshape(pred, [-1, self.n_class])
 
-        # dice
-        intersection = tf.reduce_sum(flat_pred * flat_labels, axis=0)
-        sum_ = tf.reduce_sum(flat_pred + flat_labels, axis=0)
-        loss = 1.0 - 2.0 * (intersection + 1) / (sum_ + 1)
+        # # dice
+        # intersection = tf.reduce_sum(flat_pred * flat_labels, axis=0)
+        # sum_ = tf.reduce_sum(flat_pred + flat_labels, axis=0)
+        # loss = 1.0 - 2.0 * (intersection + 1) / (sum_ + 1)
 
         ### TEST ###
 
