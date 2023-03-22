@@ -323,7 +323,7 @@ class Model:
                 for i in range(len(flat_labels)):
                     # print(flat_labels[i])
                     flat_labels[i] = tf.Variable(flat_labels[i]).numpy()
-                    flat_labels[i][0] = 0
+                    flat_labels[i].numpy()[0] = 0
 
                 weight_map = feedback_weight_map(flat_probs, flat_labels, 3, 100)
                 print(f'wm {np.shape(weight_map)}')
