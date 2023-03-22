@@ -347,7 +347,10 @@ class Model:
         # sum_ = tf.reduce_sum(flat_pred + flat_labels, axis=0)
         # loss = 1.0 - 2.0 * (intersection + 1) / (sum_ + 1)
 
-        cross_entropy=tf.nn.sparse_softmax_cross_entropy_with_logits(flat_logits,flat_labels,name='x_ent')
+        # cross_entropy=tf.nn.sparse_softmax_cross_entropy_with_logits(flat_logits,flat_labels,name='x_ent')
+
+        cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits=flat_logits, labels=flat_labels)
+
         loss=tf.reduce_mean(cross_entropy, name='x_ent_mean')
 
         ### TEST ###
