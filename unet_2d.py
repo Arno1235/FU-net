@@ -318,6 +318,7 @@ class Model:
             # print(f'flat_labels: {np.shape(flat_labels)} {flat_labels}')
 
             if self.weight_type == 'feedback':
+                flat_probs[flat_labels == [1,0,0,0,0,0,0,0]] = 0
                 weight_map = feedback_weight_map(flat_probs, flat_labels, 3, 100)
                 print(f'wm {np.shape(weight_map)}')
             else:
