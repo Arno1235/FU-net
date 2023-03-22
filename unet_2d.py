@@ -318,9 +318,12 @@ class Model:
             # print(f'flat_labels: {np.shape(flat_labels)} {flat_labels}')
 
             if self.weight_type == 'feedback':
+
+                flat_labels = tf.Variable(flat_labels)
                 for i in range(len(flat_labels)):
                     # print(flat_labels[i][0])
                     flat_labels[i][0].assign(0)
+
                 weight_map = feedback_weight_map(flat_probs, flat_labels, 3, 100)
                 print(f'wm {np.shape(weight_map)}')
             else:
