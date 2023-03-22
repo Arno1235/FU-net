@@ -337,15 +337,18 @@ class Model:
         
         ### TEST ###
 
-        pred_prob = tf.nn.softmax(flat_logits, axis=-1)
-        pred = tf.one_hot(tf.argmax(pred_prob, -1), self.n_class)
+        # pred_prob = tf.nn.softmax(flat_logits, axis=-1)
+        # pred = tf.one_hot(tf.argmax(pred_prob, -1), self.n_class)
 
-        flat_pred = tf.reshape(pred, [-1, self.n_class])
+        # flat_pred = tf.reshape(pred, [-1, self.n_class])
 
-        # dice
-        intersection = tf.reduce_sum(flat_pred * flat_labels, axis=0)
-        sum_ = tf.reduce_sum(flat_pred + flat_labels, axis=0)
-        loss = 1.0 - 2.0 * (intersection + 1) / (sum_ + 1)
+        # # dice
+        # intersection = tf.reduce_sum(flat_pred * flat_labels, axis=0)
+        # sum_ = tf.reduce_sum(flat_pred + flat_labels, axis=0)
+        # loss = 1.0 - 2.0 * (intersection + 1) / (sum_ + 1)
+
+        cross_entropy=tf.nn.sparse_softmax_cross_entropy_with_logits(flat_logits,flat_labels,name='x_ent')
+        loss=tf.reduce_mean(cross_entropy, name='x_ent_mean')
 
         ### TEST ###
 
