@@ -314,11 +314,12 @@ class Model:
             flat_probs = tf.reshape(probs, [-1, self.n_class])
 
             # TEST
-            print(f'flat_probs: {np.shape(flat_probs)} {flat_probs}')
-            print(f'flat_labels: {np.shape(flat_labels)} {flat_labels}')
+            # print(f'flat_probs: {np.shape(flat_probs)} {flat_probs}')
+            # print(f'flat_labels: {np.shape(flat_labels)} {flat_labels}')
 
             if self.weight_type == 'feedback':
                 weight_map = feedback_weight_map(flat_probs, flat_labels, 3, 100)
+                print(np.shape(weight_map))
             else:
                 raise ValueError("Unknown weight type: "%self.weight_type)
 
