@@ -9,4 +9,4 @@ def feedback_weight_map(flat_probs, flat_labels, beta, op):
     '''
     probs = tf.reduce_sum(flat_probs*flat_labels, axis=-1)
     weight_map = tf.exp(-tf.pow(probs, beta)*tf.math.log(tf.constant(op, "float")))   
-    return weight_map 
+    return weight_map
