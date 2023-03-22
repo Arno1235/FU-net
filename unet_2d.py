@@ -325,14 +325,14 @@ class Model:
                     flat_labels[i][0] = 0
 
                 weight_map = feedback_weight_map(flat_probs, flat_labels, 3, 100)
-                print(f'wm {np.shape(weight_map)}')
+                # print(f'wm {np.shape(weight_map)}')
             else:
                 raise ValueError("Unknown weight type: "%self.weight_type)
 
-            print(f'lm {np.shape(loss_map)}')
+            # print(f'lm {np.shape(loss_map)}')
 
             loss = tf.reduce_mean(tf.multiply(loss_map, weight_map))
-            print(f'loss {np.shape(loss)}')
+            # print(f'loss {np.shape(loss)}')
 
         
         ### TEST ###
